@@ -1,0 +1,5 @@
+"""Init file."""
+
+from clisnap.utils.utils import read_json_file
+
+__all__ = ["read_json_file"]

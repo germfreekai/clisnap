@@ -1,0 +1,37 @@
+[
+    {
+        "id": 1,
+        "cmd": "rails:update",
+        "description": "Update rails."
+    },
+    {
+        "id": 2,
+        "cmd": "rails:db",
+        "description": "create DB"
+    },
+    {
+        "id": 3,
+        "cmd": "rails:migrate",
+        "description": "mirgrate db"
+    },
+    {
+        "id": 4,
+        "cmd": "rails:delete",
+        "description": "delete rails environment"
+    },
+    {
+        "id": 5,
+        "cmd": "mznar",
+        "description": "egypt"
+    },
+    {
+        "id": 6,
+        "cmd": "manar2",
+        "description": "amazing"
+    },
+    {
+        "id": 7,
+        "cmd": "manar3",
+        "description": "amazing lasagna"
+    }
+]

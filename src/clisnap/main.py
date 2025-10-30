@@ -44,27 +44,16 @@ def parse_args():
 
     tool_options.add_argument("-B", action="store_true", help="Show Banner")
 
-    tool_options.add_argument(
-        "-l", "--list", action="store_true", help="List all available tools."
-    )
+    tool_options.add_argument("-l", "--list", action="store_true", help="List all available tools.")
 
     read_options = parser.add_argument_group("Read options")
-
-    read_options.add_argument("-lcs", "--list-cmds", type=str, help="List all CMDs for a tool.")
-
-    read_options.add_argument(
-        "-lc",
-        "--list-cmd",
-        type=str,
-        help=(
-            "Show only specific CMD for a tool. "
-            "Tool name and option ID required as a comma separated argument."
-        ),
-    )
+    read_options.add_argument("-s", "--show-cmd", type=str, help="Show CMDs for a tool.")
 
     write_options = parser.add_argument_group("Write options")
-
-    write_options.add_argument("-ac", "--add-cmd", type=str, help="Add CMD to software")
+    write_options.add_argument("-a", "--add-cmd", type=str, help="Add CMD to software")
+    write_options.add_argument(
+        "-n", "--n-cmds", type=int, default=1, help="Number of CMDS to add, default only 1"
+    )
 
     return parser.parse_args()
 
@@ -73,6 +62,9 @@ def main():
     """
     Tool's main logic.
     """
+    if "-h" in sys.argv or "--help" in sys.argv:
+        print_banner(TOOL_NAME)
+
     args = parse_args()
 
     cmd_path = os.path.join(os.path.dirname(os.path.abspath(__name__)), "cmds")
@@ -85,8 +77,11 @@ def main():
     if args.list:
         clisnap.list_all()
 
-    if args.list_cmds:
-        clisnap.list_cmds(args.list_cmds)
+    if args.show_cmd:
+        clisnap.show_cmd(args.show_cmd)
+
+    if args.add_cmd:
+        clisnap.add_cmd(args.add_cmd, args.n_cmds)
 
 
 if __name__ == "__main__":

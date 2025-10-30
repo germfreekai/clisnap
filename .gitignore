@@ -8,6 +8,10 @@ venv/
 env*/
 ENV*/
 
+# Build dir
+build/
+build*/
+
 # Packaging artifacts
 *.egg-info/
 

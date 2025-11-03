@@ -3,7 +3,7 @@
 import os
 
 from clisnap.cls.logger import Logger
-from clisnap.utils import read_json_file, write_json_file
+from clisnap.utils import delete_file, read_json_file, write_json_file
 
 LOGGER = Logger()
 
@@ -30,12 +30,16 @@ class Clisnap:
         Arguments:
             - tool (str): tool name
         """
-        cmds = read_json_file(os.path.join(self.cmd_path, tool + ".json"))
-        max_cmd_name_length = max(len(f"[{cmd['id']}] {cmd['cmd']}") for cmd in cmds)
+        cmds = read_json_file(tool, os.path.join(self.cmd_path, tool + ".json"))
 
-        for cmd in cmds:
-            cmd_name = f"[{cmd['id']}] {cmd['cmd']}"
-            print(f"{cmd_name:<{max_cmd_name_length}} : {cmd['description']}")
+        max_cmd_name_length = 0
+        for index, data in cmds.items():
+            length = len(f"[{index}] {data['cmd']}")
+            max_cmd_name_length = max_cmd_name_length if length < max_cmd_name_length else length
+
+        for index, data in cmds.items():
+            cmd_name = f"[{index}] {data['cmd']}"
+            print(f"{cmd_name:<{max_cmd_name_length}} : {data['description']}")
 
     def add_cmd(self, tool, n_cmds):
         """
@@ -47,21 +51,48 @@ class Clisnap:
             - tool (str): tool name
             - n_cmds (int): n cmds to add
         """
-        cmds = []
+        cmds = {}
         tool_file = os.path.join(self.cmd_path, tool + ".json")
         if os.path.exists(tool_file):
-            cmds = read_json_file(tool_file)
+            cmds = read_json_file(tool, tool_file)
 
-        index = 1 if not cmds else cmds[-1]["id"] + 1
+        index = 1 if not cmds else len(cmds) + 1
 
         for _ in range(n_cmds):
-            cmd = {}
-
-            cmd["id"] = index
-            cmd["cmd"] = input(f"[{cmd['id']}] cmd > ")
-            cmd["description"] = input(f"[{cmd['id']}] description > ")
-
+            cmd = input(f"[{index}] cmd > ")
+            description = input(f"[{index}] description > ")
+            cmds[index] = {"cmd": cmd, "description": description}
             index += 1
-            cmds.append(cmd)
 
-        write_json_file(tool_file, cmds)
+        write_json_file(tool, tool_file, cmds)
+
+    def delete_cmd(self, tool, cmd_id):
+        """
+        Delete a CMD from a tool.
+
+        If option ID not provided, delete file.
+
+        Arguments:
+            - tool (str): tool name
+            - id (int): id to delete
+        """
+        tool_file = os.path.join(self.cmd_path, tool + ".json")
+        if not cmd_id:
+            delete_file(tool, tool_file)
+            return
+        cmds = read_json_file(tool, tool_file)
+
+        if cmd_id in cmds:
+            LOGGER.info(f"Removed CMD: {cmds[str(cmd_id)]["cmd"]}")
+            del cmds[cmd_id]
+        else:
+            LOGGER.error("ID not found.")
+            return
+
+        tmp = {}
+        index = 1
+        for _, data in cmds.items():
+            tmp[index] = {"cmd": data["cmd"], "description": data["description"]}
+            index += 1
+
+        write_json_file(tool, tool_file, tmp)

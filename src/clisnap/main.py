@@ -41,19 +41,27 @@ def parse_args():
     )
 
     tool_options = parser.add_argument_group("clisnap options")
-
-    tool_options.add_argument("-B", action="store_true", help="Show Banner")
-
     tool_options.add_argument("-l", "--list", action="store_true", help="List all available tools.")
 
     read_options = parser.add_argument_group("Read options")
-    read_options.add_argument("-s", "--show-cmd", type=str, help="Show CMDs for a tool.")
+    read_options.add_argument("-s", "--show-cmd", type=str, help="Show all CMDs for a tool.")
 
     write_options = parser.add_argument_group("Write options")
-    write_options.add_argument("-a", "--add-cmd", type=str, help="Add CMD to software")
     write_options.add_argument(
-        "-n", "--n-cmds", type=int, default=1, help="Number of CMDS to add, default only 1"
+        "-a", "--add-cmd", type=str, help="Add CMDs for a tool, create new one or update existing."
     )
+    write_options.add_argument(
+        "-n", "--n-cmds", type=int, default=1, help="Number of CMDS to add, default only 1."
+    )
+
+    delete_options = parser.add_argument_group("Delete options")
+    delete_options.add_argument(
+        "-d",
+        "--delete",
+        type=str,
+        help="Delete CMDs for a tool. If option -i not provided, deletes all.",
+    )
+    delete_options.add_argument("-i", "--id", type=str, help="CMD ID to delete.")
 
     return parser.parse_args()
 
@@ -69,9 +77,6 @@ def main():
 
     cmd_path = os.path.join(os.path.dirname(os.path.abspath(__name__)), "cmds")
 
-    if args.B:
-        print_banner(TOOL_NAME)
-
     clisnap = Clisnap(cmd_path)
 
     if args.list:
@@ -82,6 +87,12 @@ def main():
 
     if args.add_cmd:
         clisnap.add_cmd(args.add_cmd, args.n_cmds)
+
+    if args.delete:
+        if len(sys.argv) > 3 and not args.id:
+            LOGGER.error("Only use argument -i for delete operations.")
+            sys.exit(1)
+        clisnap.delete_cmd(args.delete, args.id)
 
 
 if __name__ == "__main__":

@@ -8,8 +8,9 @@ with flags and how or why to use it for it's specific needs.
 """
 
 import argparse
-import os
 import sys
+from importlib.resources import files
+from pathlib import Path
 
 import maginner
 
@@ -75,7 +76,8 @@ def main():
 
     args = parse_args()
 
-    cmd_path = os.path.join(os.path.dirname(os.path.abspath(__name__)), "cmds")
+    cmd_path = Path(files("clisnap").joinpath("cmds"))
+    cmd_path.mkdir(exist_ok=True)
 
     clisnap = Clisnap(cmd_path)
 

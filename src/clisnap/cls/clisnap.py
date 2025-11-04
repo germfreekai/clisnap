@@ -21,7 +21,7 @@ class Clisnap:
         """
         for _, _, files in os.walk(self.cmd_path):
             for index, file in enumerate(files):
-                print(f"[{index}] {file[:-5]}")
+                print(f"[{index+1}] {file[:-5]}")
 
     def show_cmd(self, tool):
         """

@@ -4,7 +4,9 @@ dependencies = [
     "coloredlogs>=15.0.1",
     "pyyaml>=6.0.2",
     "humanfriendly>=10.0",
-    "maginner>=0.1"
+    "maginner>=0.1",
+    "importlib_resources>=6.5.2",
+    "pathlib>=1.0.1"
 ]
 version="0.1.0"
 requires-python = ">=3.13.5"
@@ -17,6 +19,9 @@ clisnap = "clisnap.main:main"
 
 [tool.setuptools.packages.find]
 where = ["src"]
+
+[tool.setuptools.package-data]
+clisnap = ["cmds/*"]
 
 # Linters
 [tool.black]

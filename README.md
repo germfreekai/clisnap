@@ -1,8 +1,12 @@
 # clisnap
 ---
-This CLI tool came to solve a simple issue. Having frequently used commands with differente options or arguments, that I could not always remember.
+This CLI tool came to solve a simple issue. Having frequently used commands with different options or arguments, that I could not always remember.
+
 As a result I constantly wrote them down in notes or a txt file to remember them after some time. 
-I didn't want to always look through all the options at '-h' for a command or tool but rather quickly now exactly how to execute a command.
+
+I didn't want to always look through all the options at '-h' for a command or tool but rather quickly now exactly how to execute a command or set of commands for a goal.
+
+This tool aims for that specific cases where commands are either too verbose or too many to remember but the goal does not merit a script.
 
 ## Install the tool globally
 Using a python development environment is recommended. Refer to the following steps:

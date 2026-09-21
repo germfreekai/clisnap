@@ -22,7 +22,7 @@ fi
 
 echo -e "${BLUE}[+] Installing dependencies...${RESET}"
 which pip3
-pip3 install . || echo -e "[X] Failed to install dependencies${RESET}" && exit 1
+pip3 install . || echo -e "[X] Failed to install dependencies${RESET}" && echo -e "${BLUE}[+] Installed...${RESET}"
 
 echo -e "${BLUE}[+] Done!${RESET}"
 

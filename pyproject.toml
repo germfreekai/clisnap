@@ -1,5 +1,16 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
 [project]
 name = "clisnap"
+version="0.1.2"
+description="Save commonly used commands"
+requires-python = ">=3.12.3"
+license = { text = "Proprietary" }
+authors = [
+  { name = "germfreekai", email = "renega1238@gmail.com" }
+]
 dependencies = [
     "coloredlogs>=15.0.1",
     "pyyaml>=6.0.2",
@@ -8,10 +19,13 @@ dependencies = [
     "importlib_resources>=6.5.2",
     "pathlib>=1.0.1"
 ]
-version="0.1.0"
-requires-python = ">=3.13.5"
-authors = [
-  { name = "germfreekai", email = "renega1238@gmail.com" }
+
+[project.optional-dependencies]
+dev = [
+    "pytest==8.3.3",
+    "black==24.10.0",
+    "isort==5.13.2",
+    "pylint==3.3.1",
 ]
 
 [project.scripts]
@@ -19,6 +33,9 @@ clisnap = "clisnap.main:main"
 
 [tool.setuptools.packages.find]
 where = ["src"]
+
+[tool.setuptools]
+package-dir = {"" = "src"}
 
 [tool.setuptools.package-data]
 clisnap = ["cmds/*"]

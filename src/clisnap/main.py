@@ -16,9 +16,10 @@ import maginner
 
 from clisnap.cls import Clisnap, Logger
 
+import os
+
 LOGGER = Logger()
 TOOL_NAME = "clisnap"
-
 
 def print_banner(tool_name):
     """
@@ -76,8 +77,7 @@ def main():
 
     args = parse_args()
 
-    cmd_path = Path(files("clisnap").joinpath("cmds"))
-    cmd_path.mkdir(exist_ok=True)
+    cmd_path = Path("{}/{}".format(os.environ["HOME"], ".clisnap"))
 
     clisnap = Clisnap(cmd_path)
 
@@ -99,3 +99,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+
